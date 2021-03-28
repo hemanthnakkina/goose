@@ -605,10 +605,12 @@ func (c *authenticatingClient) doAuthenticate() error {
 		authDetails *identity.AuthDetails
 		err         error
 	)
+	logger := logging.FromCompat(c.logger)
+	logger.Debugf("auth creds: %+v", c.creds)
 	if authDetails, err = c.authMode.Auth(c.creds); err != nil {
 		return gooseerrors.Newf(err, "authentication failed")
 	}
-	logger := logging.FromCompat(c.logger)
+	// logger := logging.FromCompat(c.logger)
 	logger.Debugf("auth details: %+v", authDetails)
 
 	c.regionServiceURLs = authDetails.RegionServiceURLs
